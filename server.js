@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
 const articleRoutes = require("./routes/articleRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 const { swaggerUi, swaggerSpec } = require("./swagger");
 
 const app = express();
@@ -37,6 +38,7 @@ app.use(
 // Routes
 app.use("/", authRoutes);
 app.use("/", articleRoutes);
+app.use("/", commentRoutes);
 app.use("/uploads", express.static("uploads"));
 
 // Start Server
