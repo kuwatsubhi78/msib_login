@@ -3,8 +3,11 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
+const aksiRoutes = require("./routes/aksiRoutes");
 const articleRoutes = require("./routes/articleRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const ratingRoutes = require("./routes/ratingRoutes");
+const destinasiRoutes = require("./routes/DestinasiRoutes");
 const { swaggerUi, swaggerSpec } = require("./swagger");
 
 const app = express();
@@ -37,8 +40,12 @@ app.use(
 
 // Routes
 app.use("/", authRoutes);
+app.use("/", aksiRoutes);
 app.use("/", articleRoutes);
 app.use("/", commentRoutes);
+app.use("/", ratingRoutes);
+app.use("/", destinasiRoutes);
+
 app.use("/uploads", express.static("uploads"));
 
 // Start Server
