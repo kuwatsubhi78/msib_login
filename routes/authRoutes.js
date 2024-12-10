@@ -163,22 +163,6 @@ const authorizationUrl = oauth2Client.generateAuthUrl({
   include_granted_scopes: true,
 });
 
-/**
- * @swagger
- * /auth/google:
- *   get:
- *     tags:
- *       - Auth
- *     summary: Login pengguna menggunakan Google
- *     description: Endpoint untuk login pengguna menggunakan Google (Swagger tidak dapat menangani proses redirect dan pertukaran authorization code secara otomatis)
- *     responses:
- *       302:
- *         description: Redirect ke halaman Google untuk login
- *       401:
- *         description: Unauthorized
- *       500:
- *         description: Internal Server Error
- */
 router.get("/auth/google", async (req, res) => {
   res.redirect(authorizationUrl);
 });

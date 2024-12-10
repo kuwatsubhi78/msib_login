@@ -23,12 +23,14 @@ const register = async (req, res) => {
     );
 
     if (existingUser.length > 0) {
-      return res.status(400).json({
-        message:
-          existingUser[0].email === email
-            ? "Email already exists"
-            : "Username already exists",
-      });
+      const message =
+        existingUser[0].email === email && existingUser[0].username === username
+          ? "Email and Username already exist"
+          : existingUser[0].email === email
+          ? "Email already exists"
+          : "Username already exists";
+
+      return res.status(400).json({ message: message });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -183,6 +185,58 @@ const getUsers = async (req, res) => {
   }
 };
 
+// mengupdate Username
+const updateUsername = async (req, res) => {
+  const { Newusername } = req.body;
+  const { username } = req;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const [existingUsername] = await pool.query(
+      `SELECT username FROM users WHERE username = ?`,
+      [Newusername]
+    );
+    if (existingUsername.length > 0) {
+      return res.status(404).json({ message: "Username already exists" });
+    }
+
+    const [user] = await pool.query(
+      "SELECT id FROM users WHERE username = ? LIMIT 1",
+      [username]
+    );
+
+    if (user.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const user_id = user[0].id;
+    const [result] = await pool.query(
+      "UPDATE users SET username = ? WHERE id = ?",
+      [Newusername, user_id]
+    );
+
+    const token = jwt.sign({ username: Newusername }, process.env.JWT_SECRET, {
+      expiresIn: "24h",
+    });
+
+    res.cookie("TajaMentawai", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({ message: "Username updated successfully." });
+  } catch (err) {
+    console.error("Error updating username:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 // Mengupdate role pengguna
 const updateRole = async (req, res) => {
   const { id } = req.params;
@@ -266,6 +320,7 @@ module.exports = {
   register,
   login,
   loginGoogle,
+  updateUsername,
   updateRole,
   deleteUser,
   logout,
