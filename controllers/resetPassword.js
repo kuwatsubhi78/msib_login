@@ -12,7 +12,6 @@ const changePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const idUser = req.username;
 
-  console.log(idUser);
   if (!oldPassword || !newPassword) {
     return res
       .status(400)
@@ -24,7 +23,6 @@ const changePassword = async (req, res) => {
       "SELECT password FROM users WHERE username = ?",
       [idUser]
     );
-    console.log(rows);
     if (rows.length === 0) {
       return res.status(404).json({ message: "User not found" });
     }
