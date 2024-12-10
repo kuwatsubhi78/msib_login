@@ -5,8 +5,8 @@ const verifyToken = require("../middleware/verifyToken");
 const verifyAdmin = require("../middleware/verifyAdmin");
 const authController = require("../controllers/authController");
 const resetPassword = require("../controllers/resetPassword");
-const { google } = require("googleapis");
 require("dotenv").config();
+const { google } = require("googleapis");
 
 // Swagger
 /**
@@ -128,6 +128,23 @@ router.post(
   authController.login
 );
 
+/**
+ * @swagger
+ * /auth/google:
+ *   get:
+ *     tags:
+ *       - Auth
+ *     summary: Login pengguna menggunakan Google
+ *     description: Endpoint untuk login pengguna menggunakan Google (Swagger tidak dapat menangani proses redirect dan pertukaran authorization code secara otomatis)
+ *     responses:
+ *       302:
+ *         description: Redirect ke halaman Google untuk login
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal Server Error
+ */
+
 // Login Google
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
@@ -195,8 +212,8 @@ router.get("/users/me", verifyToken, authController.getProfile);
  * /users/{id}/role:
  *   put:
  *     tags:
- *       - Auth
- *     summary: Mengubah role pengguna (admin-only)
+ *       - Admin
+ *     summary: Mengubah role pengguna
  *     description: Endpoint untuk mengubah role pengguna oleh admin
  *     parameters:
  *       - in: path
@@ -238,8 +255,8 @@ router.put(
  * /delete-user:
  *   delete:
  *     tags:
- *       - Auth
- *     summary: Menghapus pengguna (admin-only)
+ *       - Admin
+ *     summary: Menghapus pengguna
  *     description: Endpoint untuk menghapus pengguna oleh admin
  *     requestBody:
  *       required: true
@@ -305,8 +322,6 @@ router.get("/protected", verifyToken, authController.getUsers);
  *               oldPassword:
  *                 type: string
  *               newPassword:
- *                 type: string
- *               idUser:
  *                 type: string
  *     responses:
  *       200:
@@ -381,6 +396,11 @@ router.post("/request-password", resetPassword.requestResetPassword);
  *       - Auth
  *     summary: Melakukan reset password
  *     description: Endpoint untuk melakukan reset password
+ *     parameters:
+ *       - in: query
+ *         name: token
+ *         required: true
+ *         description: Token yang dikirimkan melalui email
  *     requestBody:
  *       required: true
  *       content:
@@ -389,8 +409,6 @@ router.post("/request-password", resetPassword.requestResetPassword);
  *             type: object
  *             properties:
  *               newPassword:
- *                 type: string
- *               token:
  *                 type: string
  *     responses:
  *       200:

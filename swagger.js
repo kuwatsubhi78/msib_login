@@ -1,5 +1,6 @@
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+require("dotenv").config();
 
 // Definisi Swagger
 const swaggerDefinition = {
@@ -11,8 +12,12 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: "http://localhost:5000", // Ganti dengan base URL API Anda
+      url: process.env.URL_BACKEND, // Ganti dengan base URL API Anda
       description: "Development server",
+    },
+    {
+      url: "http://localhost:5000", // Contoh URL untuk pengujian
+      description: "Local development server",
     },
   ],
   tags: [

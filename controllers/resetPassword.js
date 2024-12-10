@@ -9,8 +9,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 // Change Password
 const changePassword = async (req, res) => {
-  const { oldPassword, newPassword, idUser } = req.body;
+  const { oldPassword, newPassword } = req.body;
+  const idUser = req.username;
 
+  console.log(idUser);
   if (!oldPassword || !newPassword) {
     return res
       .status(400)
@@ -18,17 +20,16 @@ const changePassword = async (req, res) => {
   }
 
   try {
-    // Ambil pengguna berdasarkan ID (sesuaikan dengan cara Anda mendapatkan `req.user.id`)
-    const [users] = await pool.query(
-      "SELECT password FROM users WHERE id = ?",
+    const [rows] = await pool.query(
+      "SELECT password FROM users WHERE username = ?",
       [idUser]
     );
-    const user = users[0];
-
-    if (!user) {
+    console.log(rows);
+    if (rows.length === 0) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    const user = rows[0];
     // Verifikasi password lama
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) {
