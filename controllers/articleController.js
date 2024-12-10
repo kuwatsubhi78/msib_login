@@ -47,10 +47,11 @@ const getAllArticles = async (req, res) => {
         k.id AS komentar_id,
         k.content AS komentar_content,
         k.created_at AS komentar_created_at,
+        k.updated_at AS komentar_updated_at,
         ku.username AS commenter_username
       FROM artikel a
       LEFT JOIN users u ON a.author_id = u.id
-      LEFT JOIN komentar k ON a.id = k.article_id
+      LEFT JOIN komentar k ON a.id = k.article_id AND k.deleted_at IS NULL
       LEFT JOIN users ku ON k.user_id = ku.id
       ORDER BY a.created_at DESC, k.created_at ASC
     `);
@@ -82,6 +83,7 @@ const getAllArticles = async (req, res) => {
           id: row.komentar_id,
           content: row.komentar_content,
           created_at: row.komentar_created_at,
+          updated_at: row.komentar_updated_at,
           commenter: {
             id: row.commenter_id,
             username: row.commenter_username,
@@ -294,8 +296,6 @@ const deleteArticleImage = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-module.exports = deleteArticleImage;
 
 module.exports = {
   getAllArticles,

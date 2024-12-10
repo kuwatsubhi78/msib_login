@@ -21,6 +21,7 @@ const { body } = require("express-validator");
  *   post:
  *     tags:
  *       - Article
+ *       - Admin
  *     summary: Membuat artikel baru
  *     description: Endpoint untuk membuat artikel baru
  *     requestBody:
@@ -32,15 +33,19 @@ const { body } = require("express-validator");
  *             properties:
  *               author_id:
  *                 type: string
+ *                 description: ID author
  *               title:
  *                 type: string
+ *                 description: Judul artikel
  *               content:
  *                 type: string
+ *                 description: Konten artikel
  *               images:
  *                 type: array
  *                 items:
  *                   type: string
  *                   format: binary
+ *                 description: Gambar artikel
  *     responses:
  *       200:
  *         description: Artikel berhasil ditambahkan
@@ -145,6 +150,7 @@ router.get("/artikel/:id", articleController.getArticleById);
  *   patch:
  *     tags:
  *       - Article
+ *       - Admin
  *     summary: Mengupdate artikel
  *     description: Endpoint untuk mengupdate artikel
  *     parameters:
@@ -198,6 +204,7 @@ router.patch(
  *   delete:
  *     tags:
  *       - Article
+ *       - Admin
  *     summary: Menghapus artikel
  *     description: Endpoint untuk menghapus artikel
  *     requestBody:
@@ -235,6 +242,7 @@ router.delete(
  *   delete:
  *     tags:
  *       - Article
+ *       - Admin
  *     summary: Menghapus gambar artikel
  *     description: Endpoint untuk menghapus gambar artikel
  *     parameters:

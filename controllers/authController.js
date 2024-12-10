@@ -17,12 +17,18 @@ const register = async (req, res) => {
   const userRole = role || "user";
 
   try {
-    const [users] = await pool.query("SELECT * FROM users WHERE username = ?", [
-      username,
-    ]);
+    const [existingUser] = await pool.query(
+      "SELECT * FROM users WHERE email = ? OR username = ? LIMIT 1",
+      [email, username]
+    );
 
-    if (users.length > 0) {
-      return res.status(400).json({ message: "Username already exists" });
+    if (existingUser.length > 0) {
+      return res.status(400).json({
+        message:
+          existingUser[0].email === email
+            ? "Email already exists"
+            : "Username already exists",
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

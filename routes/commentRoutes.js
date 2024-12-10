@@ -19,6 +19,7 @@ const { body } = require("express-validator");
  *   post:
  *     tags:
  *       - Comment
+ *       - Admin
  *     summary: Membuat komentar baru
  *     description: Endpoint untuk membuat komentar baru
  *     parameters:
@@ -64,9 +65,10 @@ router.post(
 /**
  * @swagger
  * /hapus-komentar/{id}:
- *   delete:
+ *   put:
  *     tags:
  *       - Comment
+ *       - Admin
  *     summary: Menghapus komentar
  *     description: Endpoint untuk menghapus komentar
  *     parameters:
@@ -85,11 +87,7 @@ router.post(
  *       500:
  *         description: Terjadi kesalahan pada server
  */
-router.delete(
-  "/hapus-komentar/:id",
-  verifyToken,
-  commentController.deleteComment
-);
+router.put("/hapus-komentar/:id", verifyToken, commentController.deleteComment);
 
 // Update Komentar
 /**
@@ -98,6 +96,7 @@ router.delete(
  *   patch:
  *     tags:
  *       - Comment
+ *       - Admin
  *     summary: Mengupdate komentar
  *     description: Endpoint untuk mengupdate komentar
  *     parameters:

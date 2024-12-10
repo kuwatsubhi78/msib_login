@@ -24,6 +24,7 @@ const addComment = async (req, res) => {
     if (existingUser.length === 0) {
       return res.status(400).json({ message: "Not Valid User" });
     }
+    const user_id = existingUser[0].id;
 
     const [existingArticle] = await pool.query(
       `SELECT * FROM artikel WHERE id = ?`,
@@ -35,7 +36,7 @@ const addComment = async (req, res) => {
 
     const [rows] = await pool.query(
       `INSERT INTO komentar (id, content, article_id, user_id) VALUES (UUID(), ?, ?, ?)`,
-      [content, article_id, existingUser[0].id]
+      [content, article_id, user_id]
     );
     res.status(200).json({ message: "Comment added successfully" });
   } catch (err) {
@@ -44,7 +45,7 @@ const addComment = async (req, res) => {
   }
 };
 
-// Controller untuk menghapus komentars
+// Controller untuk menghapus komentar
 const deleteComment = async (req, res) => {
   const { id } = req.params;
   const { username } = req;
@@ -71,9 +72,13 @@ const deleteComment = async (req, res) => {
       return res.status(400).json({ message: "Not Valid User" });
     }
 
-    const [rows] = await pool.query("DELETE FROM komentar WHERE id = ?", [id]);
+    const [rows] = await pool.query(
+      "UPDATE komentar SET deleted_at = NOW() WHERE id = ?",
+      [id]
+    );
     res.status(200).json({ message: "Comment deleted successfully" });
   } catch (err) {
+    console.error("Error deleting comment:", err);
     res.status(500).json({ message: "Failed to delete comment" });
   }
 };
