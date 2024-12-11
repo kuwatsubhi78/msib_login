@@ -29,16 +29,9 @@ app.use(
   "/api-docs",
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, {
-    customSiteTitle: "TajaMentawai API Documentation", // Mengubah title
-    customfavIcon: "/uploads/logo2.png", // Path ke favicon
-    customCss: `
-      .swagger-ui .topbar { 
-        display: none; 
-      }
-    `,
+    customSiteTitle: "TajaMentawai API Docs",
   })
 );
-
 // Routes
 app.use("/", authRoutes);
 app.use("/", aksiRoutes);
