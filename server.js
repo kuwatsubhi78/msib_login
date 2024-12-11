@@ -40,7 +40,6 @@ app.use(
 );
 
 // Routes
-app.use("/", (req, res) => res.send("Hello World!"));
 app.use("/", authRoutes);
 app.use("/", aksiRoutes);
 app.use("/", articleRoutes);
