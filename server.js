@@ -23,10 +23,6 @@ app.use(
     credentials: true,
   })
 );
-res.setHeader(
-  "Content-Security-Policy",
-  "script-src-elem 'self' https://vercel.live"
-);
 
 // Swagger
 app.use(
