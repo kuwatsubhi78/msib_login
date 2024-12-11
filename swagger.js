@@ -29,6 +29,10 @@ const swaggerDefinition = {
       name: "Article",
       description: "Endpoints untuk artikel",
     },
+    {
+      name: "Destinasi",
+      description: "Endpoints untuk destinasi",
+    },
   ],
 };
 
