@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
@@ -9,7 +8,7 @@ const articleRoutes = require("./routes/articleRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const ratingRoutes = require("./routes/ratingRoutes");
 const destinasiRoutes = require("./routes/DestinasiRoutes");
-const { swaggerSpec, swaggerUi } = require("./swagger");
+const { swaggerUi, swaggerSpec } = require("./swagger");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,15 +28,16 @@ app.use(
   "/api-docs",
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, {
-    customSiteTitle: "Dokumentasi API TajaMentawai",
-    customfavIcon: "/uploads/logo2.png", // Path ke favicon yang akan ditampilkan
+    customSiteTitle: "TajaMentawai API Documentation", // Mengubah title
+    customfavIcon: "/uploads/logo2.png", // Path ke favicon
     customCss: `
-    .swagger-ui .topbar { 
-      display: none; 
-    }
-  `,
+      .swagger-ui .topbar { 
+        display: none; 
+      }
+    `,
   })
 );
+
 // Routes
 app.use("/", authRoutes);
 app.use("/", aksiRoutes);
@@ -46,7 +46,7 @@ app.use("/", commentRoutes);
 app.use("/", ratingRoutes);
 app.use("/", destinasiRoutes);
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static("uploads"));
 
 // Start Server
 app.listen(PORT, () => {

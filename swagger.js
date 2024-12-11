@@ -15,6 +15,10 @@ const swaggerDefinition = {
       url: process.env.URL_BACKEND, // Ganti dengan base URL API Anda
       description: "Development server",
     },
+    {
+      url: "http://localhost:5000", // Contoh URL untuk pengujian
+      description: "Local development server",
+    },
   ],
   tags: [
     {
