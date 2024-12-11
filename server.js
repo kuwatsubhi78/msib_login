@@ -9,7 +9,8 @@ const articleRoutes = require("./routes/articleRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const ratingRoutes = require("./routes/ratingRoutes");
 const destinasiRoutes = require("./routes/DestinasiRoutes");
-const { swaggerUi, swaggerSpec } = require("./swagger");
+const { swaggerDocument } = require("./swagger");
+const { swaggerUi } = require("swagger-ui-express");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,7 +26,7 @@ app.use(
 );
 
 // Swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Routes
 app.use("/", authRoutes);
 app.use("/", aksiRoutes);
