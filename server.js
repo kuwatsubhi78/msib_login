@@ -23,6 +23,15 @@ app.use(
   })
 );
 
+// Routes
+app.use("/", (req, res) => res.send("Hello World!"));
+app.use("/", authRoutes);
+app.use("/", aksiRoutes);
+app.use("/", articleRoutes);
+app.use("/", commentRoutes);
+app.use("/", ratingRoutes);
+app.use("/", destinasiRoutes);
+
 // Swagger
 app.use(
   "/api-docs",
@@ -37,15 +46,6 @@ app.use(
     `,
   })
 );
-
-// Routes
-app.use("/", (req, res) => res.send("Hello World!"));
-app.use("/", authRoutes);
-app.use("/", aksiRoutes);
-app.use("/", articleRoutes);
-app.use("/", commentRoutes);
-app.use("/", ratingRoutes);
-app.use("/", destinasiRoutes);
 
 app.use("/uploads", express.static("uploads"));
 
