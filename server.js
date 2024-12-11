@@ -9,8 +9,8 @@ const articleRoutes = require("./routes/articleRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const ratingRoutes = require("./routes/ratingRoutes");
 const destinasiRoutes = require("./routes/DestinasiRoutes");
-const { swaggerDocument } = require("./swagger");
-const { swaggerUi } = require("swagger-ui-express");
+const swaggerDocument = require("./swagger");
+const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
