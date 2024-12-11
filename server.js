@@ -25,13 +25,7 @@ app.use(
 );
 
 // Swagger
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, {
-    customSiteTitle: "TajaMentawai API Docs",
-  })
-);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
 app.use("/", authRoutes);
 app.use("/", aksiRoutes);
