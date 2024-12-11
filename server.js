@@ -26,7 +26,7 @@ app.use(
 );
 
 // Swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Routes
 app.use("/", authRoutes);
 app.use("/", aksiRoutes);
