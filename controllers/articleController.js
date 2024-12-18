@@ -40,6 +40,7 @@ const getAllArticles = async (req, res) => {
         a.title AS artikel_title,
         a.content AS artikel_content,
         a.gambar AS artikel_gambar,
+        a.likes AS artikel_likes,
         a.created_at AS artikel_created_at,
         a.updated_at AS artikel_updated_at,
         u.id AS author_id,
@@ -67,6 +68,7 @@ const getAllArticles = async (req, res) => {
           artikel_title: row.artikel_title,
           artikel_content: row.artikel_content,
           artikel_gambar: row.artikel_gambar,
+          artikel_likes: row.artikel_likes,
           artikel_created_at: row.artikel_created_at,
           artikel_updated_at: row.artikel_updated_at,
           author: {

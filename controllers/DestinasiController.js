@@ -172,17 +172,17 @@ const createDestinasi = async (req, res) => {
       "INSERT INTO destinasi (id, name, description, location, gambar, created_by) VALUES ( UUID(), ?, ?, ?, ?, ?)",
       [name, description, location, JSON.stringify(imageUrls), user_id]
     );
-    const [destinasi_id] = await pool.query(
-      `SELECT id FROM destinasi 
-       WHERE name = ? AND created_by = ? 
-       ORDER BY created_at DESC LIMIT 1`,
-      [name, user_id]
-    );
+    // const [destinasi_id] = await pool.query(
+    //   `SELECT id FROM destinasi
+    //    WHERE name = ? AND created_by = ?
+    //    ORDER BY created_at DESC LIMIT 1`,
+    //   [name, user_id]
+    // );
 
-    const [gambar] = await pool.query(
-      `INSERT INTO gambar (id, destinasi_id, gambar) VALUES (UUID(), ?, ?)`,
-      [destinasi_id[0].id, JSON.stringify(imageUrls)]
-    );
+    // const [gambar] = await pool.query(
+    //   `INSERT INTO gambar (id, destinasi_id, gambar) VALUES (UUID(), ?, ?)`,
+    //   [destinasi_id[0].id, JSON.stringify(imageUrls)]
+    // );
     res.status(201).json({
       message: "Destinasi berhasil ditambahkan.",
     });

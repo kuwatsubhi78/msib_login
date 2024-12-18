@@ -116,14 +116,14 @@ const loginGoogle = async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    const [users] = await pool.query("SELECT * FROM users WHERE email = ?", [
+    const [users] = await pool.query("SELECT role FROM users WHERE email = ?", [
       data.email,
     ]);
-
+    hashedPassword = await bcrypt.hash("Password@123", 10);
     if (users.length === 0) {
       await pool.query(
         "INSERT INTO users (id, username, email, password, role) VALUES (UUID(), ?, ?, ?, ?)",
-        [data.name, data.email, "Password@123", "user"]
+        [data.name, data.email, hashedPassword, "user"]
       );
     }
     const token = jwt.sign({ username: data.name }, process.env.JWT_SECRET, {
@@ -136,9 +136,12 @@ const loginGoogle = async (req, res) => {
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
+    if (users[0].role === "admin") {
+      res.redirect("http://localhost:3000/home-admin");
+    }
 
-    res.json({ message: "Login successful", user: data });
-    // res.redirect("http://localhost:5173/protected");
+    // res.json({ message: "Login successful", user: data });
+    res.redirect("http://localhost:3000/home-login");
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send("Error");

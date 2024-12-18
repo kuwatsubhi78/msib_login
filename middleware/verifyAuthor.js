@@ -21,15 +21,15 @@ const verifyAuthor = async (req, res, next) => {
     );
 
     // Jika tidak ada data atau user bukan admin, akses ditolak
-    if (rows.length === 0) {
-      const [adminCheck] = await pool.query(
-        `SELECT role FROM users WHERE username = ? AND role = 'admin'`,
-        [username]
-      );
-      if (adminCheck.length === 0) {
-        return res.status(403).json({ message: "Access denied." });
-      }
-    }
+    // if (rows.length === 0) {
+    //   const [adminCheck] = await pool.query(
+    //     `SELECT role FROM users WHERE username = ? AND role = 'admin'`,
+    //     [username]
+    //   );
+    //   if (adminCheck.length === 0) {
+    //     return res.status(403).json({ message: "Access denied." });
+    //   }
+    // }
 
     // Jika user adalah admin atau valid author, lanjutkan
     req.user = {

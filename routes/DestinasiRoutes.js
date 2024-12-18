@@ -115,9 +115,7 @@ router.post(
       .trim()
       .notEmpty()
       .withMessage("Description is required")
-      .bail()
-      .isLength({ min: 1, max: 100 })
-      .withMessage("Description must be between 1 and 100 characters"),
+      .bail(),
     body("location")
       .isString()
       .trim()
@@ -201,9 +199,7 @@ router.patch(
       .trim()
       .notEmpty()
       .withMessage("Description is required")
-      .bail()
-      .isLength({ min: 1, max: 100 })
-      .withMessage("Description must be between 1 and 100 characters"),
+      .bail(),
     body("location")
       .isString()
       .trim()
