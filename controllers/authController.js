@@ -137,7 +137,7 @@ const loginGoogle = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
     if (users[0].role === "admin") {
-      res.redirect("http://localhost:3000/home-admin");
+      res.redirect("http://localhost:3000/admin");
     }
 
     // res.json({ message: "Login successful", user: data });
@@ -310,8 +310,8 @@ const deleteUser = async (req, res) => {
 const logout = (req, res) => {
   res.clearCookie("TajaMentawai", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: true,
+    sameSite: "none",
     maxAge: 0,
   });
   res.status(200).json({ message: "Logged out successfully" });
